@@ -46,7 +46,7 @@
     methods: {
       increment() {
         this.$store.commit('increment');
-        this.axios.get("//www.baidu.com").then(res=>console.log(res)).catch(err=>console.log(err));
+        //this.axios.get("//www.baidu.com").then(res=>console.log(res)).catch(err=>console.log(err));
       },
       decrement() {
         this.$store.commit('reduce')
