@@ -4,14 +4,15 @@ import HelloWorld from '../components/HelloWorld'
 import router1 from '../components/router1'
 import router2 from "../components/router2"
 import store from "../components/store"
+import Main1 from '../components/ContentMain'
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
+      name: 'main1',
+      component: Main1,
       children: [
         {
           // 当 /user/:id/profile 匹配成功，
@@ -20,20 +21,21 @@ export default new Router({
           component: router1,
           props:true
         },
-        {
-          path:"router2",
-          component:router2
-        },
-        {
-          path:'store',
-          component:store
-        }
+
         ]
     },
     {
       path:"/router1",
       name:"router1",
       component:router1
+    },
+    {
+      path:"/router2",
+      component:router2
+    },
+    {
+      path:'/store',
+      component:store
     }
   ]
 })

@@ -45,10 +45,11 @@
 
     methods: {
       increment() {
-        store.commit('increment')
+        this.$store.commit('increment');
+        this.axios.get("//www.baidu.com").then(res=>console.log(res)).catch(err=>console.log(err));
       },
       decrement() {
-        store.commit('reduce')
+        this.$store.commit('reduce')
       },
       updateMessage(e) {
         this.$store.commit('updateMessage', e.target.value)
