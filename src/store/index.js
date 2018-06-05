@@ -2,9 +2,13 @@ import Vue from "vue";
 import Vuex from 'vuex'
 Vue.use(Vuex);
 export default new Vuex.Store({
+  strict: true,
   state: {
     count: 0,
-    captcha: ""
+    captcha: "",
+    obj:{
+      message:"信息"
+    }
   },
   mutations: {
     increment(state) {
@@ -15,6 +19,9 @@ export default new Vuex.Store({
     },
     initCaptcha(state, p) {
       state.captcha = p.src;
+    },
+    updateMessage (state, message) {
+      state.obj.message = message
     }
   },
   actions: {
