@@ -5,6 +5,7 @@ import router1 from '../components/router1'
 import router2 from "../components/router2"
 import store from "../components/store"
 import Main1 from '../components/ContentMain'
+import faceDetect from '../components/Baidu/FaceDetect'
 Vue.use(Router);
 
 export default new Router({
@@ -36,6 +37,10 @@ export default new Router({
     {
       path:'/store',
       component:store
+    },
+    {
+      path:'/faceDetect',
+      component:faceDetect
     }
   ]
 })
