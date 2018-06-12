@@ -44,11 +44,17 @@ export default new Vuex.Store({
       });
     },
     getBdToken(context) {
-      this.axios.get("/bdApi").then(res => {
-        context.commit("updateToken", res.token);
-
-      }).catch(error => {
-        console.log(error);
+      //this 指的是store
+      //console.log(this);
+      return new Promise((resolve, reject) => {
+        Vue.axios.get("/bdApi").then(res => {
+          context.commit("updateToken", res.data);
+         // console.log("res", res.data);
+          resolve(res.data);
+        }).catch(error => {
+          console.log(error);
+          reject(error);
+        })
       });
     }
   },

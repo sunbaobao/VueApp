@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <el-container >
-
+    <el-container style="height:100vh">
       <el-header style="text-align: right; font-size: 12px">
         <h1>ELEMENT-UI</h1>
         <el-dropdown>
@@ -15,11 +14,14 @@
         <span>王小虎</span>
       </el-header>
       <el-container>
-        <Nav></Nav>
+        <el-scrollbar >
+          <Nav></Nav>
+        </el-scrollbar>
+        <el-scrollbar>
         <el-main>
           <router-view/>
         </el-main>
-
+        </el-scrollbar>
       </el-container>
     </el-container>
   </div>
@@ -41,6 +43,9 @@ export default {
     line-height: 60px;
 
   }
+  .el-scrollbar__view{
+    height: 100%;
+  }
 #app {
   /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
   /*-webkit-font-smoothing: antialiased;*/
@@ -48,6 +53,10 @@ export default {
   /*text-align: center;*/
   /*color: #2c3e50;*/
   /*margin-top: 60px;*/
+  min-height: 100%;
+}
+body{
+  min-height: 100vh;
 }
 body,h1{
   padding: 0;
@@ -58,7 +67,9 @@ body,h1{
   color: #ffffff;
   line-height: 60px;
 }
-
+  .el-scrollbar__wrap{
+    overflow: auto;
+  }
 .el-aside {
   color: #333;
 }

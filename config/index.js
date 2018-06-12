@@ -15,11 +15,11 @@ module.exports = {
         target: 'https://aip.baidubce.com/rest/2.0',
         changeOrigin: true,
         pathRewrite: {
-          '^/bdApi': ''
+          '^/bdApiP': ''
         }
       },
       '/bdApi': {
-        target: 'http://localhost:39733/bdApi',
+        target: 'http://localhost:39732/bdApi',
         changeOrigin: true,
         pathRewrite: {
           '^/bdApi': ''
