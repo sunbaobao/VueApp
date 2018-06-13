@@ -1,5 +1,9 @@
 <template>
   <el-aside width="280px"  style="background-color: #545c64;" >
+    <!--<el-container>-->
+      <!--sdsd-->
+    <!--</el-container>-->
+    <el-scrollbar style="height: 100%">
     <el-menu
       default-active="/"
       class="el-menu-vertical-demo"
@@ -52,6 +56,7 @@
         <span slot="title">导航四</span>
       </el-menu-item>
     </el-menu>
+    </el-scrollbar>
   </el-aside>
 </template>
 

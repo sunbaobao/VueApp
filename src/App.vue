@@ -14,14 +14,15 @@
         <span>王小虎</span>
       </el-header>
       <el-container>
-        <el-scrollbar >
           <Nav></Nav>
+
+        <el-main style="padding: 0;">
+          <el-scrollbar style="height: 100%;">
+            <el-main>
+              <router-view/>
+            </el-main>
         </el-scrollbar>
-        <el-scrollbar>
-        <el-main>
-          <router-view/>
         </el-main>
-        </el-scrollbar>
       </el-container>
     </el-container>
   </div>
@@ -63,7 +64,7 @@ body,h1{
   margin: 0;
 }
 .el-header {
-  background-color: rgb(84, 92, 100);
+  background-color: #545c64;
   color: #ffffff;
   line-height: 60px;
 }
