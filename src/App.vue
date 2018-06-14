@@ -69,7 +69,7 @@ body,h1{
   line-height: 60px;
 }
   .el-scrollbar__wrap{
-    overflow: auto;
+    overflow-x: auto;
   }
 .el-aside {
   color: #333;

@@ -1,11 +1,18 @@
 <template>
-  <el-aside width="280px"  style="background-color: #545c64;" >
+  <el-aside width="auto"  style="background-color: #545c64;" >
     <!--<el-container>-->
       <!--sdsd-->
     <!--</el-container>-->
+
     <el-scrollbar style="height: 100%">
+      <transition name="el-zoom-in-top">
+      <div @click="isCollapse=!isCollapse" class="menu-btn">
+        <i v-if="!isCollapse" class="el-icon-caret-left"></i>
+        <i v-else class="el-icon-caret-right"></i>
+
+      </div>
+      </transition>
     <el-menu
-      default-active="/"
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
@@ -13,7 +20,8 @@
       text-color="#fff"
       active-text-color="#ffd04b"
       :collapse="isCollapse"
-      :router="isRouter">
+      :router="isRouter"
+      :unique-opened="isRouter">
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-location"></i>
@@ -66,7 +74,9 @@
     data(){
       return {
         isCollapse: false,
-        isRouter:true
+        isRouter:true,
+        navMenuIcon:'el-icon-back',
+        openIndex:'1'
       }
     },
     methods: {
@@ -81,5 +91,18 @@
 </script>
 
 <style scoped>
-
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    /*min-height: 400px;*/
+  }
+  .menu-btn{
+    line-height: 30px;
+    text-align: center;
+    font-size: 18px;
+    color: #ffffff;
+    cursor: pointer;
+    background: #5e6375;
+    /*padding-right: 20px;*/
+    border-right: solid 1px #e6e6e6;
+  }
 </style>
