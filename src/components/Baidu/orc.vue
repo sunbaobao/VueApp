@@ -8,7 +8,6 @@
       :before-upload="beforeAvatarUpload">
       <img v-if="imageUrl" :src="imageUrl" class="avatar">
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-
     </el-upload>
     <el-row v-loading="loading">
       <el-col :span="8">
@@ -22,10 +21,10 @@
         </div>
       </el-col>
       <el-col :span="8">
-      <div class="grid-content bg-purple-dark">
-        <span class="lable-left">日志id：</span> {{result.log_id}}
-      </div>
-    </el-col>
+        <div class="grid-content bg-purple-dark">
+          <span class="lable-left">日志id：</span> {{result.log_id}}
+        </div>
+      </el-col>
       <el-col :span="24" v-if="!result.error_code">
         <div class="grid-content bg-purple-dark">
           <span class="lable-left">人脸数目：</span> {{result.result.face_num}}
@@ -97,27 +96,23 @@
     </p>
   </div>
 </template>
-
 <script>
   import qs from 'querystring';
 
   export default {
-    name: "FaceDetect",
+    name: "orc",
     data() {
       return {
         imageUrl: '',
         result: {
-          face_num: '',
-          result: [],
-          log_id: '',
-          error_code:0,
-          error_msg:""
+          direction:0,
+          log_id:"",
+          words_result:[],
+          words_result_num:0,
+          probability:null
         },
         loading: false,
       };
-    },
-    mounted:function(){
-
     },
     methods: {
       handleAvatarSuccess(res, file) {
@@ -129,18 +124,18 @@
           this.imageUrl = fileReader.result;
           let data = {
             image: this.imageUrl.replace(/data:image\/(jpeg|png);base64,/, ''),
-            image_type:"BASE64",
-            face_field:"age,beauty,expression,face_shape,gender,glasses,race,quality,face_type",
-            max_face_num:10
+            detect_direction:"true",
+            detect_language:"true",
+            probability:"true"
           };
           // console.log(data);
           this.loading = true;
           this.$store.dispatch("getBdToken").then(res => {
             // console.log("token", res.token);
-            let url = '/bdApiP/face/v3/detect?access_token=' + res.data.token;
+            let url = '/bdApiP/ocr/v1/general_basic?access_token=' + res.token;
             this.axios({
               method: 'POST',
-              headers: {'content-type': 'application/json'},
+              headers: {'content-type': 'application/x-www-form-urlencoded'},
               data: qs.stringify(data),
               url,
             }).then(res => {
@@ -170,7 +165,6 @@
     }
   }
 </script>
-
 <style>
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
@@ -179,11 +173,9 @@
     position: relative;
     overflow: hidden;
   }
-
   .avatar-uploader .el-upload:hover {
     border-color: #409EFF;
   }
-
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
@@ -192,7 +184,6 @@
     line-height: 178px;
     text-align: center;
   }
-
   .avatar {
     /*width: 178px;*/
     /*height: 178px;*/

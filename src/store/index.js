@@ -10,7 +10,11 @@ export default new Vuex.Store({
     obj: {
       message: "信息"
     },
-    bdToken: ''
+    bdToken: '',
+    token: '',
+    dialogFormVisible: false,
+    Authorization: localStorage.getItem('Authorization') || '',
+    user: null
   },
   mutations: {
     increment(state) {
@@ -27,6 +31,21 @@ export default new Vuex.Store({
     },
     updateToken(state, token) {
       state.bdToken = token
+    },
+    changeLogin(state, arg) {
+      // console.log("login");
+      state.dialogFormVisible = arg;
+    },
+    changeAuth(state, user) {
+      state.Authorization = user.Authorization;
+      localStorage.setItem('Authorization', user.Authorization);
+    },
+    updateUser(state, user) {
+      state.user = user;
+    },
+    deleteAuth(state) {
+      localStorage.removeItem("Authorization");
+      state.Authorization = null;
     }
   },
   actions: {
@@ -47,9 +66,9 @@ export default new Vuex.Store({
       //this 指的是store
       //console.log(this);
       return new Promise((resolve, reject) => {
-        Vue.axios.get("/bdApi").then(res => {
+        Vue.axios.post("/server/api/getToken", {tokenName: "bdToken"}).then(res => {
           context.commit("updateToken", res.data);
-         // console.log("res", res.data);
+          // console.log("res", res.data);
           resolve(res.data);
         }).catch(error => {
           console.log(error);

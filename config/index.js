@@ -19,10 +19,24 @@ module.exports = {
         }
       },
       '/bdApi': {
-        target: 'http://localhost:39732/bdApi',
+        target: 'http://localhost:3000/bdApi',
         changeOrigin: true,
         pathRewrite: {
           '^/bdApi': ''
+        }
+      },
+      '/user': {
+        target: 'http://localhost:3000/user',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/user': ''
+        }
+      },
+      '/server': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/server': ''
         }
       }
     },
@@ -81,4 +95,4 @@ module.exports = {
     // Set to `true` or `false` to always turn it on or off
     bundleAnalyzerReport: process.env.npm_config_report
   }
-}
+};
