@@ -1,11 +1,11 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import store from './store'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
+import Vue from 'vue';
+import App from './App';
+import router from './router';
+import store from './store';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 // 添加请求拦截器，在请求头中加token
@@ -31,10 +31,10 @@ axios.interceptors.response.use(
           // 返回 401 清除token信息并跳转到登录页面
           console.log('401');
           store.commit('deleteAuth');
-          store.commit("changeLogin", true)
+          store.commit("changeLogin", true);
       }
     }
-    return Promise.reject(error.response.data)   // 返回接口返回的错误信息
+    return Promise.reject(error.response.data);  // 返回接口返回的错误信息
   });
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);

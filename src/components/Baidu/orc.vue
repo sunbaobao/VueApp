@@ -5,35 +5,38 @@
       action="/bdApi/FaceDetect"
       :show-file-list="false"
       :on-success="handleAvatarSuccess"
-      :before-upload="beforeAvatarUpload">
-      <img v-if="imageUrl" :src="imageUrl" class="avatar">
+      :before-upload="beforeAvatarUpload"
+    >
+      <img v-if="imageUrl" :src="imageUrl" class="avatar" />
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
     <el-row v-loading="loading">
       <el-col :span="8">
         <div class="grid-content bg-purple-dark">
-          <span class="lable-left">错误码：</span> {{result.error_code}}
+          <span class="lable-left">错误码：</span>
+          {{result.error_code}}
         </div>
       </el-col>
       <el-col :span="8">
         <div class="grid-content bg-purple-dark">
-          <span class="lable-left">错误信息：</span> {{result.error_msg}}
+          <span class="lable-left">错误信息：</span>
+          {{result.error_msg}}
         </div>
       </el-col>
       <el-col :span="8">
         <div class="grid-content bg-purple-dark">
-          <span class="lable-left">日志id：</span> {{result.log_id}}
+          <span class="lable-left">日志id：</span>
+          {{result.log_id}}
         </div>
       </el-col>
       <el-col :span="24" v-if="!result.error_code">
         <div class="grid-content bg-purple-dark">
-          <span class="lable-left">人脸数目：</span> {{result.result.face_num}}
+          <span class="lable-left">人脸数目：</span>
+          {{result.result.face_num}}
         </div>
       </el-col>
       <template v-if="!result.error_code">
-        <el-table
-          :data="result.result.face_list"
-          style="width: 100%">
+        <el-table :data="result.result.face_list" style="width: 100%">
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
@@ -76,134 +79,126 @@
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column
-            label="年龄"
-            prop="age">
-          </el-table-column>
-          <el-table-column
-            label="beauty，美丑打分"
-            prop="beauty">
-          </el-table-column>
-          <el-table-column
-            label="face_probability，人脸置信度"
-            prop="face_probability">
-          </el-table-column>
+          <el-table-column label="年龄" prop="age"></el-table-column>
+          <el-table-column label="beauty，美丑打分" prop="beauty"></el-table-column>
+          <el-table-column label="face_probability，人脸置信度" prop="face_probability"></el-table-column>
         </el-table>
       </template>
     </el-row>
-    <p v-if="result">
-      {{result}}
-    </p>
+    <p v-if="result">{{result}}</p>
   </div>
 </template>
 <script>
-  import qs from 'querystring';
+import qs from "querystring";
 
-  export default {
-    name: "orc",
-    data() {
-      return {
-        imageUrl: '',
-        result: {
-          direction:0,
-          log_id:"",
-          words_result:[],
-          words_result_num:0,
-          probability:null
-        },
-        loading: false,
-      };
-    },
-    methods: {
-      handleAvatarSuccess(res, file) {
-        console.log(file);
-        //this.imageUrl = URL.createObjectURL(file.raw);
-        let fileReader = new FileReader();
-        fileReader.readAsDataURL(file.raw);
-        fileReader.onload = () => {
-          this.imageUrl = fileReader.result;
-          let data = {
-            image: this.imageUrl.replace(/data:image\/(jpeg|png);base64,/, ''),
-            detect_direction:"true",
-            detect_language:"true",
-            probability:"true"
-          };
-          // console.log(data);
-          this.loading = true;
-          this.$store.dispatch("getBdToken").then(res => {
-            // console.log("token", res.token);
-            let url = '/bdApiP/ocr/v1/general_basic?access_token=' + res.token;
-            this.axios({
-              method: 'POST',
-              headers: {'content-type': 'application/x-www-form-urlencoded'},
-              data: qs.stringify(data),
-              url,
-            }).then(res => {
+export default {
+  name: "orc",
+  data() {
+    return {
+      imageUrl: "",
+      result: {
+        direction: 0,
+        log_id: "",
+        words_result: [],
+        words_result_num: 0,
+        probability: null
+      },
+      loading: false
+    };
+  },
+  methods: {
+    /**
+     * asdasd assdsada assdadas asdasd
+     */
+    handleAvatarSuccess(res, file) {
+      console.log(file);
+      //this.imageUrl = URL.createObjectURL(file.raw);
+      let fileReader = new FileReader();
+      fileReader.readAsDataURL(file.raw);
+      fileReader.onload = () => {
+        this.imageUrl = fileReader.result;
+        let data = {
+          image: this.imageUrl.replace(/data:image\/(jpeg|png);base64,/, ""),
+          detect_direction: "true",
+          detect_language: "true",
+          probability: "true"
+        };
+        // console.log(data);
+        this.loading = true;
+        this.$store.dispatch("getBdToken").then(res => {
+          // console.log("token", res.token);
+          let url = "/bdApiP/ocr/v1/general_basic?access_token=" + res.token;
+          this.axios({
+            method: "POST",
+            headers: { "content-type": "application/x-www-form-urlencoded" },
+            data: qs.stringify(data),
+            url
+          }).then(res => {
               //console.log(res);
               this.result = res.data;
               this.loading = false;
             }).catch(err => {
               console.log(err);
-            })
-          })
-        };
-
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg'||file.type === 'image/png';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        // this.imageUrl = URL.createObjectURL(file.raw);
-        // console.log(file);
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG PNG格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
+              //  a'asa'.slice(0,1);
+            });
+        });
+      };
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg" || file.type === "image/png";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      // this.imageUrl = URL.createObjectURL(file.raw);
+      // console.log(file);
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG PNG格式!");
       }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
     }
   }
+};
 </script>
 <style>
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    /*width: 178px;*/
-    /*height: 178px;*/
-    max-width: 100%;
-    display: block;
-  }
-  .demo-table-expand {
-    font-size: 0;
-  }
-  .demo-table-expand label {
-    width: 120px;
-    color: #99a9bf;
-  }
-  .demo-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 50%;
-  }
-  .el-col {
-    border-radius: 4px;
-    margin: 10px 0;
-  }
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  /*width: 178px;*/
+  /*height: 178px;*/
+  max-width: 100%;
+  display: block;
+}
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 120px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
+.el-col {
+  border-radius: 4px;
+  margin: 10px 0;
+}
 </style>

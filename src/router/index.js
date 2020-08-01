@@ -1,14 +1,15 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import HelloWorld from '../components/HelloWorld'
-import router1 from '../components/router1'
-import router2 from "../components/router2"
-import store from "../components/store"
-import Main1 from '../components/ContentMain'
-import faceDetect from '../components/Baidu/FaceDetect'
-import orc from '../components/Baidu/orc'
-import stores from '../store'
-import user from '../components/user'
+import Vue from 'vue';
+import Router from 'vue-router';
+import HelloWorld from '../components/HelloWorld';
+import router1 from '../components/router1';
+import router2 from "../components/router2";
+import store from "../components/store";
+import Main1 from '../components/ContentMain';
+import faceDetect from '../components/Baidu/FaceDetect';
+import orc from '../components/Baidu/orc';
+import stores from '../store';
+import user from '../components/user';
+import bigFile from '../components/demo/bigFile';
 Vue.use(Router);
 const router = new Router({
   routes: [
@@ -50,6 +51,10 @@ const router = new Router({
     {
       path: '/user',
       component: user
+    },
+    {
+      path: '/demo/bigFile',
+      component: bigFile
     }
   ]
 });
@@ -64,13 +69,12 @@ router.beforeEach((to, from, next) => {
     // console.log("2",token);
     if (token === null || token === '') {
       // next('/login');
-      stores.commit("changeLogin", true)
+      stores.commit("changeLogin", true);
     } else {
-
       next();
     }
   }
 });
 
-export default router
+export default router;
 
