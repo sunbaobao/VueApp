@@ -47,7 +47,7 @@ export default {
   methods: {
     handleCommand(command) {
       if (command === "signOut") {
-        this.axios.post("/server/user/sign/out").then(res => {
+                 this.axios.post("/server/user/sign/out").then(res => {
           localStorage.removeItem("Authorization");
           this.$store.commit("updateUser", null);
           this.$message(res.data.meta.message);
